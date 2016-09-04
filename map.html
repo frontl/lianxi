@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>联系我</title>
+ <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SLoS0mmYkBuHIaI77tRt3N1pHqLHIvTE"></script>
+ <script type="text/javascript" src="js/jquery.min.js"></script>
+
+</head>
+<style type="text/css">
+*{
+	padding:0;
+	margin:0;
+	list-style: none;
+}
+
+body,html{
+	height:100%;
+	width:100%;
+}
+.box{
+	height:100%;
+	width:1190px;
+    margin:0 auto;
+}
+.btop{
+	height:734px;
+	width:80%;
+	margin:0 auto;
+	background:#fff;
+}
+.bbottom{
+	height:600px;
+	width:100%;
+}
+
+input{	border:0;
+	outline: none;
+	width:80%;
+	height:30px;
+  margin:0 auto;
+	background:#DFE3E2;
+
+}
+
+
+#cityName{
+	border:1px solid #f34f34;
+	background:#fff;
+	padding:10px;
+	width:400px;
+	box-sizing: border-box;
+}
+.bbb{
+	width:100%;
+	height:60px;
+	float:left;
+}
+.ccc{
+	display: none;
+}
+#citynn{
+	margin:0 auto;
+	cursor: pointer;
+}
+.yuan{
+	cursor: pointer;
+	height:10px;
+	width:10px;
+	border-radius: 50%;
+	background:red;
+}
+</style>
+<body>
+<div class="box">
+<div class="yuan"></div>
+
+<div class="bbb ccc">
+城市名: <input id="cityName" type="text" />
+		<input type="button" value="查询" id="citynn" style="width:100px; margin-right:10px;" onclick="theLocation()">
+</div>
+<div class="bbottom" id="allmap">
+
+
+
+</div>
+</div>
+
+
+	
+<script type="text/javascript">
+
+$('.yuan').on('click',function(){
+	$('.bbb').toggleClass('ccc');
+})
+
+
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(112.510528,37.825683);
+	map.centerAndZoom(point,12);
+	 var marker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(marker);               // 将标注添加到地图中
+   marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+	function theLocation(){
+		var city = document.getElementById("cityName").value;
+		if(city != ""){
+			map.centerAndZoom(city,11);      // 用城市名设置地图中心点
+		}
+	// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint(city, function(point){
+		if (point) {
+			map.centerAndZoom(point, 16);
+			map.addOverlay(new BMap.Marker(point));
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	}, "太原市");
+}
+	</script>
+</body>
+</html>
